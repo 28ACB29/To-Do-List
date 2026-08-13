@@ -17,4 +17,6 @@ export class TaskComponent {
 
   @Output() statusChange = new EventEmitter<{ id: number; status: TaskStatus }>();
 
+  statuses = Object.values(TaskStatus);
+
 }
