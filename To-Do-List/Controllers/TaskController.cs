@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using To_Do_List.Data;
 using To_Do_List.Models;
 
@@ -19,34 +20,48 @@ namespace To_Do_List.Controllers
 
 		// GET: api/<TaskController>
 		[HttpGet]
-		public IEnumerable<string> Get()
-		{
-			return new string[] { "value1", "value2" };
-		}
+		public ActionResult<IEnumerable<Models.Task>> Get() => base.Ok(this.repo.GetAll());
 
 		// GET api/<TaskController>/5
-		[HttpGet("{id}")]
-		public string Get(int id)
+		[HttpGet("{id}", Name = "GetTask")]
+		public ActionResult<Models.Task> Get(int id)
 		{
-			return "value";
+			Models.Task? task = this.repo.GetById(id);
+			if (task == null)
+			{
+				return base.NotFound();
+			}
+
+			return base.Ok(task);
 		}
 
 		// POST api/<TaskController>
 		[HttpPost]
-		public void Post([FromBody] string value)
+		public ActionResult<Models.Task> Post([FromBody] Models.Task task)
 		{
+			Models.Task created = this.repo.Add(task);
+			return base.CreatedAtRoute("GetTask", new { id = created.Id }, created);
 		}
 
 		// PUT api/<TaskController>/5
 		[HttpPut("{id}")]
-		public void Put(int id, [FromBody] string value)
+		public ActionResult Put(int id, [FromBody] Models.Task task)
 		{
+			if (id != task.Id)
+			{
+				return base.BadRequest();
+			}
+
+			bool ok = this.repo.Update(task);
+			return ok ? base.NoContent() : base.NotFound();
 		}
 
 		// DELETE api/<TaskController>/5
 		[HttpDelete("{id}")]
-		public void Delete(int id)
+		public ActionResult Delete(int id)
 		{
+			bool ok = this.repo.Delete(id);
+			return ok ? base.NoContent() : base.NotFound();
 		}
 	}
 }
