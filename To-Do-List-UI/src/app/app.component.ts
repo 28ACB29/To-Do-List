@@ -10,5 +10,20 @@ import { TaskService } from './services/task.service';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'To-Do-List-UI';
+
+  addForm: FormGroup;
+
+  editForm: FormGroup | null = null;
+
+  tasks: Task[] = [];
+
+  statuses = Object.values(TaskStatus);
+
+  constructor(private fb: FormBuilder, private taskService: TaskService) {
+    this.addForm = this.fb.group({
+      name: ['', Validators.required],
+      description: [''],
+      status: [TaskStatus.New]
+    });
+  }
 }
