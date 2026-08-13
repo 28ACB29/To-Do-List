@@ -79,6 +79,15 @@
         <button type="button" (click)="cancelEdit()">Cancel</button>
       </form>
     </div>
+
+    <section>
+      <app-task *ngFor="let t of tasks"
+                [task]="t"
+                (edit)="startEdit($event)"
+                (delete)="deleteTask($event)"
+                (statusChange)="onStatusChange($event)">
+      </app-task>
+    </section>
   </div>
 </main>
 
