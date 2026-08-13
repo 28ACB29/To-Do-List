@@ -5,6 +5,8 @@ import { Task, TaskStatus } from '../models/task.model';
 @Injectable({
   providedIn: 'root'
 })
+
+@Injectable({ providedIn: 'root' })
 export class TaskService {
 
   constructor() { }
