@@ -76,7 +76,7 @@ namespace To_Do_List.Data
 
 		public bool Update(Models.Task task)
 		{
-			List<Models.Task> tasks = ReadAll();
+			List<Models.Task> tasks = this.ReadAll();
 			int index = tasks.FindIndex(t => t.Id == task.Id);
 			if (index == -1)
 			{
@@ -84,7 +84,7 @@ namespace To_Do_List.Data
 			}
 
 			tasks[index] = task;
-			WriteAll(tasks);
+			this.WriteAll(tasks);
 			return true;
 		}
 	}
