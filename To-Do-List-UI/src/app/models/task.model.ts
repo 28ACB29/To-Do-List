@@ -1,4 +1,5 @@
 import { TaskStatus } from './task-status';
+export { TaskStatus } from './task-status';
 
 export interface Task {
   id: number;
