@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37531.7
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "To-Do-List-API", "To-Do-List\To-Do-List-API.csproj", "{91D69A87-1656-464B-95DA-A675335DBE14}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "To-Do-List-UI", "To-Do-List-UI\To-Do-List-UI.esproj", "{EDD8BD8D-0486-8CA5-783A-7E24010BB63D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91D69A87-1656-464B-95DA-A675335DBE14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91D69A87-1656-464B-95DA-A675335DBE14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91D69A87-1656-464B-95DA-A675335DBE14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91D69A87-1656-464B-95DA-A675335DBE14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDD8BD8D-0486-8CA5-783A-7E24010BB63D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDD8BD8D-0486-8CA5-783A-7E24010BB63D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDD8BD8D-0486-8CA5-783A-7E24010BB63D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{EDD8BD8D-0486-8CA5-783A-7E24010BB63D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDD8BD8D-0486-8CA5-783A-7E24010BB63D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDD8BD8D-0486-8CA5-783A-7E24010BB63D}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F944CB2F-637B-45FB-802B-64F157756141}
+	EndGlobalSection
+EndGlobal
