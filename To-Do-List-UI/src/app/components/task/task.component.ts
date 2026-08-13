@@ -19,4 +19,16 @@ export class TaskComponent {
 
   statuses = Object.values(TaskStatus);
 
+  onStatusChange(newStatus: string) {
+    this.statusChange.emit({ id: this.task.id, status: newStatus as TaskStatus });
+  }
+
+  onEdit() {
+    this.edit.emit(this.task);
+  }
+
+  onDelete() {
+    this.delete.emit(this.task.id);
+  }
+
 }
