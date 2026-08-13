@@ -1,2 +1,9 @@
 <div class="task">
+  <div class="task-header">
+    <h3>{{ task.name }}</h3>
+    <div class="actions">
+      <button (click)="onEdit()">Edit</button>
+      <button (click)="onDelete()">Delete</button>
+    </div>
+  </div>
 </div>
