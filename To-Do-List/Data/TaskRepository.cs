@@ -9,7 +9,7 @@ namespace To_Do_List.Data
 
 		private readonly string filePath;
 
-		private readonly object @lock = new();
+		private readonly object fileLock = new();
 
 		public TaskRepository(IHostEnvironment env)
 		{
@@ -20,7 +20,7 @@ namespace To_Do_List.Data
 
 		private List<Models.Task> ReadAll()
 		{
-			lock (this.@lock)
+			lock (this.fileLock)
 			{
 				if (!File.Exists(this.filePath))
 				{
@@ -40,7 +40,7 @@ namespace To_Do_List.Data
 
 		private void WriteAll(List<Models.Task> tasks)
 		{
-			lock (this.@lock)
+			lock (this.fileLock)
 			{
 				string json = JsonSerializer.Serialize(tasks, new JsonSerializerOptions { WriteIndented = true });
 				File.WriteAllText(this.filePath, json);
