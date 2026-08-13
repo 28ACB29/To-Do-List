@@ -7,4 +7,10 @@
     </div>
   </div>
   <p *ngIf="task.description">{{ task.description }}</p>
+  <label>
+    Status:
+    <select [value]="task.status" (change)="onStatusChange($event.target.value)">
+      <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+    </select>
+  </label>
 </div>
