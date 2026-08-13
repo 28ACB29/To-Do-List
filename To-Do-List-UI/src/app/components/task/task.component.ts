@@ -9,4 +9,12 @@ import { Task, TaskStatus } from '../../models/task.model';
 })
 export class TaskComponent {
 
+  @Input() task!: Task;
+
+  @Output() edit = new EventEmitter<Task>();
+
+  @Output() delete = new EventEmitter<number>();
+
+  @Output() statusChange = new EventEmitter<{ id: number; status: TaskStatus }>();
+
 }
