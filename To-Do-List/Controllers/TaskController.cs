@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using To_Do_List.Data;
+using To_Do_List.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,6 +10,13 @@ namespace To_Do_List.Controllers
 	[ApiController]
 	public class TaskController : ControllerBase
 	{
+		private readonly ITaskRepository repo;
+
+		public TaskController(ITaskRepository repo)
+		{
+			this.repo = repo;
+		}
+
 		// GET: api/<TaskController>
 		[HttpGet]
 		public IEnumerable<string> Get()
