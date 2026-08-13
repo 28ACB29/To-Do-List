@@ -48,14 +48,44 @@ namespace To_Do_List.Data
 		}
 
 
-		public Models.Task Add(Models.Task task) => throw new NotImplementedException();
+		public Models.Task Add(Models.Task task)
+		{
+			List<Models.Task> tasks = this.ReadAll();
+			int id = tasks.Count != 0 ? tasks.Max(t => t.Id) + 1 : 1;
+			task.Id = id;
+			tasks.Add(task);
+			this.WriteAll(tasks);
+			return task;
+		}
 
-		public bool Delete(int id) => throw new NotImplementedException();
+		public bool Delete(int id)
+		{
+			List<Models.Task> tasks = this.ReadAll();
+			bool removed = tasks.RemoveAll(t => t.Id == id) > 0;
+			if (removed)
+			{
+				this.WriteAll(tasks);
+			}
 
-		public IEnumerable<Models.Task> GetAll() => throw new NotImplementedException();
+			return removed;
+		}
 
-		public Models.Task? GetById(int id) => throw new NotImplementedException();
+		public IEnumerable<Models.Task> GetAll() => this.ReadAll();
 
-		public bool Update(Models.Task task) => throw new NotImplementedException();
+		public Models.Task? GetById(int id) => this.ReadAll().FirstOrDefault(t => t.Id == id);
+
+		public bool Update(Models.Task task)
+		{
+			List<Models.Task> tasks = ReadAll();
+			int index = tasks.FindIndex(t => t.Id == task.Id);
+			if (index == -1)
+			{
+				return false;
+			}
+
+			tasks[index] = task;
+			WriteAll(tasks);
+			return true;
+		}
 	}
 }
