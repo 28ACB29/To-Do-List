@@ -1,4 +1,5 @@
 
+using System.Text.Json.Serialization;
 using To_Do_List.Data;
 
 namespace To_Do_List
@@ -25,7 +26,12 @@ namespace To_Do_List
 				});
 			});
 
-			builder.Services.AddControllers();
+			builder.Services.AddControllers()
+				.AddJsonOptions(opts =>
+				{
+					// helpful if front-end sends enum names
+					opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+				});
 			// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 			builder.Services.AddOpenApi();
 
