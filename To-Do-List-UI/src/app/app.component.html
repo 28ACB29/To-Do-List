@@ -67,27 +67,19 @@
 
     <hr />
 
-    <div *ngIf="editForm" class="edit-panel">
-      <h3>Edit Task</h3>
-      <form [formGroup]="editForm" (ngSubmit)="saveEdit()">
-        <input formControlName="name" />
-        <input formControlName="description" />
-        <select formControlName="status">
-          <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
-        </select>
-        <button type="submit">Save</button>
-        <button type="button" (click)="cancelEdit()">Cancel</button>
-      </form>
-    </div>
+    <!-- edit panel -->
+    <app-task-edit *ngIf="editingTask"
+                   [task]="editingTask"
+                   (save)="onEditSave($event)"
+                   (cancel)="cancelEdit()">
+    </app-task-edit>
 
-    <section>
-      <app-task *ngFor="let t of tasks"
-                [task]="t"
-                (edit)="startEdit($event)"
-                (delete)="deleteTask($event)"
-                (statusChange)="onStatusChange($event)">
-      </app-task>
-    </section>
+    <!-- task list -->
+    <app-task-list [tasks]="tasks"
+                   (edit)="startEdit($event)"
+                   (delete)="deleteTask($event)"
+                   (statusChange)="onStatusChange($event)">
+    </app-task-list>
   </div>
 </main>
 
