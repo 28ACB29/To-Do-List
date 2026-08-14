@@ -1,6 +1,6 @@
 <div class="task-edit">
   <h3>Edit Task</h3>
-  <form [formGroup]="editForm" (ngSubmit)="saveEdit()">
+  <form [formGroup]="editForm" (ngSubmit)="onSave()">
     <input formControlName="name" />
     <input formControlName="description" />
     <select formControlName="status">
