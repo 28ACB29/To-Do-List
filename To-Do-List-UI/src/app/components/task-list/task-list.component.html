@@ -1,1 +1,10 @@
-<p>task-list works!</p>
+<section class="task-list">
+  <app-task *ngFor="let t of tasks"
+            [task]="t"
+            (edit)="onEdit($event)"
+            (delete)="onDelete($event)"
+            (statusChange)="onStatusChange($event)">
+  </app-task>
+
+  <p *ngIf="!tasks || tasks.length === 0">No tasks yet.</p>
+</section>
