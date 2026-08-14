@@ -18,4 +18,15 @@ export class TaskListComponent {
 
   @Output() statusChange = new EventEmitter<{ id: number; status: TaskStatus }>();
 
+  onEdit(task: Task) {
+    this.edit.emit(task);
+  }
+
+  onDelete(id: number) {
+    this.delete.emit(id);
+  }
+
+  onStatusChange(payload: { id: number; status: TaskStatus }) {
+    this.statusChange.emit(payload);
+  }
 }
