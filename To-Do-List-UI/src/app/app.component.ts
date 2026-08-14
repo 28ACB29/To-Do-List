@@ -14,7 +14,7 @@ export class AppComponent {
 
   addForm: FormGroup;
 
-  editForm: FormGroup | null = null;
+  editingTask: Task | null = null;
 
   tasks: Task[] = [];
 
@@ -49,22 +49,16 @@ export class AppComponent {
   }
 
   startEdit(task: Task) {
-    this.editForm = this.fb.group({
-      id: [task.id],
-      name: [task.name, Validators.required],
-      description: [task.description],
-      status: [task.status]
-    });
+    this.editingTask = task;
   }
 
-  saveEdit() {
-    if (!this.editForm) return;
-    if (this.editForm.invalid) return;
-
-    const updated = this.editForm.value as Task;
+  // called by <app-task-edit> when user saves
+  onEditSave(updated: Task) {
     this.taskService.update(updated).subscribe({
       // Clear the edit form on success; the BehaviorSubject already updated by service
-      next: () => this.editForm = null,
+      next: () => {
+        this.editingTask = null;
+      },
       error: err => {
         console.error('Update failed', err);
         // show user feedback here
@@ -73,7 +67,7 @@ export class AppComponent {
   }
 
   cancelEdit() {
-    this.editForm = null;
+    this.editingTask = null;
   }
 
   deleteTask(id: number) {
