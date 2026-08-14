@@ -9,5 +9,21 @@ import { Task, TaskStatus } from '../../models/task.model';
   styleUrl: './task-edit.component.css'
 })
 export class TaskEditComponent {
+  @Input() task: Task | null = null;
+  @Output() save = new EventEmitter<Task>();
+  @Output() cancel = new EventEmitter<void>();
+
+  form: FormGroup;
+
+  statuses = Object.values(TaskStatus);
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      id: [null],
+      name: ['', Validators.required],
+      description: [''],
+      status: [TaskStatus.New, Validators.required]
+    });
+  }
 
 }
