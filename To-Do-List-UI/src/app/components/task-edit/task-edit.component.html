@@ -1,12 +1,12 @@
 <div class="task-edit">
   <h3>Edit Task</h3>
-  <form [formGroup]="editForm" (ngSubmit)="onSave()">
+  <form [formGroup]="form" (ngSubmit)="onSave()">
     <input formControlName="name" />
     <input formControlName="description" />
     <select formControlName="status">
       <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
     </select>
     <button type="submit">Save</button>
-    <button type="button" (click)="cancelEdit()">Cancel</button>
+    <button type="button" (click)="onCancel()">Cancel</button>
   </form>
 </div>
