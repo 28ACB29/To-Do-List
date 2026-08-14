@@ -34,8 +34,18 @@ export class AppComponent {
 
   addTask() {
     if (this.addForm.invalid) return;
-    this.taskService.add(this.addForm.value);
-    this.addForm.reset({ status: TaskStatus.New });
+
+    const payload = this.addForm.value as Omit<Task, 'id'>;
+    this.taskService.add(payload).subscribe({
+      next: created => {
+        // created contains server-assigned id; BehaviorSubject already updated by service
+        this.addForm.reset({ status: TaskStatus.New });
+      },
+      error: err => {
+        console.error('Add failed', err);
+        // show user feedback here
+      }
+    });
   }
 
   startEdit(task: Task) {
@@ -50,8 +60,16 @@ export class AppComponent {
   saveEdit() {
     if (!this.editForm) return;
     if (this.editForm.invalid) return;
-    this.taskService.update(this.editForm.value as Task);
-    this.editForm = null;
+
+    const updated = this.editForm.value as Task;
+    this.taskService.update(updated).subscribe({
+      // Clear the edit form on success; the BehaviorSubject already updated by service
+      next: () => this.editForm = null,
+      error: err => {
+        console.error('Update failed', err);
+        // show user feedback here
+      }
+    });
   }
 
   cancelEdit() {
@@ -59,11 +77,25 @@ export class AppComponent {
   }
 
   deleteTask(id: number) {
-    this.taskService.delete(id);
+    this.taskService.delete(id).subscribe({
+      next: () => { /* UI updated by service */ },
+      error: err => {
+        console.error('Delete failed', err);
+        // show user feedback here
+      }
+    });
   }
 
   onStatusChange(payload: { id: number; status: TaskStatus }) {
     const t = this.tasks.find(x => x.id === payload.id);
-    if (t) this.taskService.update({ ...t, status: payload.status });
+    if (!t) return;
+    const updated = { ...t, status: payload.status };
+    this.taskService.update(updated).subscribe({
+      next: () => { /* UI updated by service */ },
+      error: err => {
+        console.error('Status update failed', err);
+        // show user feedback here
+      }
+    });
   }
 }
