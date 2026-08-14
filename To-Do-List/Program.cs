@@ -14,6 +14,17 @@ namespace To_Do_List
 			// Register the repository as a singleton
 			builder.Services.AddSingleton<ITaskRepository, TaskRepository>();
 
+			// Dev CORS policy: allow local dev servers (adjust origins as needed)
+			builder.Services.AddCors(options =>
+			{
+				options.AddPolicy("DevPolicy", policy =>
+				{
+					policy.WithOrigins("http://localhost:4200", "http://localhost:58457")
+						  .AllowAnyHeader()
+						  .AllowAnyMethod();
+				});
+			});
+
 			builder.Services.AddControllers();
 			// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 			builder.Services.AddOpenApi();
@@ -27,6 +38,14 @@ namespace To_Do_List
 			}
 
 			app.UseHttpsRedirection();
+
+			// Serve files from wwwroot (drop Angular build here)
+			app.UseDefaultFiles();
+			app.UseStaticFiles();
+
+			app.UseRouting();
+
+			app.UseCors("DevPolicy");
 
 			app.UseAuthorization();
 
