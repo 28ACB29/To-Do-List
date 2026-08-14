@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Task, TaskStatus } from '../models/task.model';
-
-const API_BASE = '/api/task'; // relative pa
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class TaskService {
+
+  private readonly API_BASE = environment.apiTaskBase;
 
   private tasksSubject = new BehaviorSubject<Task[]>([]);
 
@@ -20,7 +21,7 @@ export class TaskService {
   }
 
   private load(): void {
-    this.http.get<Task[]>(API_BASE)
+    this.http.get<Task[]>(this.API_BASE)
       .subscribe({
         next: tasks => this.tasksSubject.next(tasks),
         error: () => this.tasksSubject.next([])
@@ -33,7 +34,7 @@ export class TaskService {
   }
 
   add(task: Omit<Task, 'id'>) {
-    return this.http.post<Task>(API_BASE, task)
+    return this.http.post<Task>(this.API_BASE, task)
       .pipe(
         tap(created => {
           const current = this.tasksSubject.value;
@@ -43,7 +44,7 @@ export class TaskService {
   }
 
   update(task: Task) {
-    return this.http.put<void>(`${API_BASE}/${task.id}`, task)
+    return this.http.put<void>(`${this.API_BASE}/${task.id}`, task)
       .pipe(
         tap(() => {
           const updated = this.tasksSubject.value.map(t => t.id === task.id ? task : t);
@@ -53,7 +54,7 @@ export class TaskService {
   }
 
   delete(id: number) {
-    return this.http.delete<void>(`${API_BASE}/${id}`)
+    return this.http.delete<void>(`${this.API_BASE}/${id}`)
       .pipe(
         tap(() => {
           const filtered = this.tasksSubject.value.filter(t => t.id !== id);
