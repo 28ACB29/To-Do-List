@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using To_Do_List.Data;
 using To_Do_List.Models;
 
@@ -29,7 +30,7 @@ namespace To_Do_List.Controllers
 			Models.Task? task = this.repo.GetById(id);
 			if (task == null)
 			{
-				return base.NotFound();
+				return base.NotFound($"Task with id {id} not found");
 			}
 
 			return base.Ok(task);
@@ -39,6 +40,18 @@ namespace To_Do_List.Controllers
 		[HttpPost]
 		public ActionResult<Models.Task> Post([FromBody] Models.Task task)
 		{
+			if (!base.ModelState.IsValid)
+			{
+				Console.WriteLine("ModelState invalid:");
+				foreach (KeyValuePair<string, ModelStateEntry> kv in base.ModelState)
+				{
+					foreach (ModelError err in kv.Value.Errors)
+					{
+						Console.WriteLine($"{kv.Key}: {err.ErrorMessage} {err.Exception}");
+					}
+				}
+				return this.BadRequest(base.ModelState);
+			}
 			Models.Task created = this.repo.Add(task);
 			return base.CreatedAtRoute("GetTask", new { id = created.Id }, created);
 		}
@@ -49,11 +62,11 @@ namespace To_Do_List.Controllers
 		{
 			if (id != task.Id)
 			{
-				return base.BadRequest();
+				return base.BadRequest($"Task ID mismatch: {id} != {task.Id}");
 			}
 
 			bool ok = this.repo.Update(task);
-			return ok ? base.NoContent() : base.NotFound();
+			return ok ? base.NoContent() : base.NotFound($"Task with id {id} not found");
 		}
 
 		// DELETE api/<TaskController>/5
@@ -61,7 +74,7 @@ namespace To_Do_List.Controllers
 		public ActionResult Delete(int id)
 		{
 			bool ok = this.repo.Delete(id);
-			return ok ? base.NoContent() : base.NotFound();
+			return ok ? base.NoContent() : base.NotFound($"Task with id {id} not found");
 		}
 	}
 }
